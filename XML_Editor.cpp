@@ -8,32 +8,87 @@ using namespace std;
 
 void Print_XML(vector<string> Spaces, const vector<string> &XML_string, int size)   // Passed constant by reference to save memory and time
 {
-	for (int i = 0; i < size; i++)
-		cout << Spaces[i] << XML_string[i] << "\n";
+	fstream newfile;
+	newfile.open("newxml.xml",ios::out);
+	if(newfile.is_open())
+	{
+		for (int i = 0; i < size; i++)
+		{
+			newfile << Spaces[i] << XML_string[i] << "\n";
+		}
+	}
 }
 
 
 
-void XML_Parser(vector<string> &OpenTags, int &lines, vector<string> &XML_Original, vector<string> &XML_Fix)
+void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, vector<string> &XML_Fix)
 {
-
-	int OpenTagIndex=0;
-	string temp;
-	string t;
-	stack <string> OpenAngleStack;
 
 	char start;
 	char end;
 	char anotherend;
-	bool info = false;
 
+	int NumOpenTags=0;
+	string temp;
+	string t;
+	stack <string> OpenAngleStack;
 
+	//this part will be replaces with string sent from gui
 	ifstream indata;
-	indata.open("Trial.txt");
-
-	do
+	indata.open("Trial.txt"); //opening file with input mode
+	string file_data;
+	int file_data_index=0;
+	if(indata.is_open()) //check if file if correctly opened
 	{
-		getline(indata, temp);
+		string line;
+		while(getline(indata,line))
+		{
+			file_data = file_data + line; //put all the lines in one string
+		}
+	}
+
+
+	//Send parts of file_data string to the code at a time
+	int str_start;
+	int str_end;
+
+	while(file_data[file_data_index] != '\0')
+	{
+		while(file_data[file_data_index] == ' ')
+		{
+			file_data_index++;
+		}
+		if(file_data[file_data_index] == '<')
+			{
+				str_start = file_data_index;
+				str_end = file_data_index+1;
+				while(file_data[str_end] != '>' && file_data[str_end] != '\0')
+				{
+					str_end++;
+				}
+				if(file_data[str_end] == '\0')
+				{
+					break;
+				}
+			}
+			else //normal input(not tags)
+			{
+				str_start = file_data_index;
+				str_end = file_data_index+1;
+				while(file_data[str_end] != '<' && file_data[str_end] != '\0')
+				{
+					str_end++;
+				}
+				str_end--; //So we dont take "<" with us
+				if(file_data[str_end] == '\0')
+				{
+					break;
+				}
+			}
+
+		file_data_index = str_end+1;
+		temp = file_data.substr(str_start, str_end - str_start +1);
+
 		XML_Original[lines] = temp;
 		XML_Fix[lines] = temp;
 
@@ -43,10 +98,6 @@ void XML_Parser(vector<string> &OpenTags, int &lines, vector<string> &XML_Origin
 			XML_Original[lines]= temp;
 			XML_Fix[lines] = temp;
 			lines++;
-
-			if( !OpenAngleStack.empty() && (temp.find("<") == -1) && ( temp != "" ) && OpenTags[OpenTagIndex-1] == OpenAngleStack.top() )
-			{	info = true; }
-
 			continue;
 		}
 
@@ -56,12 +107,11 @@ void XML_Parser(vector<string> &OpenTags, int &lines, vector<string> &XML_Origin
 
 		if (temp[start] == '/')
 		{
-			info = false;
 			t = temp.substr((start + 1), end - (start + 1)); 				// we want the string without '/' to compare with the top of the stack
 
 			if (t != OpenAngleStack.top())
 			{
-				XML_Original[lines] += " \t \t  <----error here";				// Indicate Error
+				XML_Original[lines] += "    <----error here";					// Indicate Error
 				XML_Fix[lines] = ("</" + OpenAngleStack.top() + ">");			// To Fix Errors
 				OpenAngleStack.pop();											// Pop stack to indicate new errors
 			}
@@ -73,37 +123,26 @@ void XML_Parser(vector<string> &OpenTags, int &lines, vector<string> &XML_Origin
 
 		else
 		{
-
-			/* In Case the opening tag contains information in a new line and there was no closed tag ( missing closed tag ) SPECIAL CASE FOR ERRORS */
-
-			if (info == true)
-			{
-				XML_Original[lines-1] += " \t \t   <----error here";			// Indicate Error
-				XML_Fix[lines-1] = ("</" + OpenAngleStack.top() + ">");			// To Fix Errors
-				OpenAngleStack.pop();											// Pop stack to indicate new errors
-				lines++;
-				continue;
-			}
-
-
 			/* Only push keyword in the stack for example "synset type="a" id=a00001740" ( Only push synset ) */
 			anotherend = temp.find(" ");
 			if (anotherend > start && anotherend < end)
-				OpenTags[OpenTagIndex] = temp.substr(start, anotherend - start);
+				tags[NumOpenTags] = temp.substr(start, anotherend - start);
 
 			else
-				OpenTags[OpenTagIndex] = temp.substr(start, end - start);
+				tags[NumOpenTags] = temp.substr(start, end - start);
 
-			if (OpenTags[OpenTagIndex] == "frame")						// Self Closing Tags
+			if (tags[NumOpenTags] == "frame")						// Self Closing Tags
 			{
 				lines++;
 				continue;
 			}
 
-			OpenAngleStack.push(OpenTags[OpenTagIndex++]);
+			OpenAngleStack.push(tags[NumOpenTags++]);
 
+			//No need for the bellow part because we will send known parts from string
 
-			/* Check if the closing angle is in the same string if so parse it and check for errors */
+			/*
+			//Check if the closing angle is in the same string if so parse it and check for errors
 
 			temp = temp.substr(end + 1);
 
@@ -114,14 +153,14 @@ void XML_Parser(vector<string> &OpenTags, int &lines, vector<string> &XML_Origin
 
 				if (temp.find("<") == -1 || temp.find(">") == -1)					// Closed angle is missing
 				{
-					XML_Original[lines] += " \t \t  <----error here";					// Indicate Error
+					XML_Original[lines] += "    <----error here";					// Indicate Error
 					XML_Fix[lines] += ("</" + OpenAngleStack.top() + ">");		// Fix
 					OpenAngleStack.pop();											// Pop stack to indicate new errors in next iteration
 				}
 
 				else if (t != OpenAngleStack.top())
 				{
-					XML_Original[lines] += "  \t \t <----error here";													// Indicate Error
+					XML_Original[lines] += "    <----error here";													// Indicate Error
 					XML_Fix[lines] = XML_Fix[lines].substr(0, start) + ("</" + OpenAngleStack.top() + ">");		// Fix ( Remove wrong tag and place correct tag )
 					OpenAngleStack.pop();																			// Pop stack to indicate new errors in next iteration
 				}
@@ -129,17 +168,16 @@ void XML_Parser(vector<string> &OpenTags, int &lines, vector<string> &XML_Origin
 				else
 					OpenAngleStack.pop();											// No errors angles match !!
 
-			}
+			}*/
 		}
-
 		lines++;
 
-	} while (!indata.eof());		// while the file isn't empty keep taking inputs
+	}
 
 	while (OpenAngleStack.empty() == false)
 	{
-		XML_Original[lines] = " \t \t    <----error here";					// Last angle missing  ( ERROR )
-		XML_Fix[lines] += ("</" + OpenAngleStack.top() + ">");				// Fix
+		XML_Original[lines] = "    <----error here";					// Last angle missing  ( ERROR )
+		XML_Fix[lines] += ("</" + OpenAngleStack.top() + ">");		// Fix
 		OpenAngleStack.pop();
 		lines++;														// Increase size of lines
 	}
@@ -345,19 +383,16 @@ int main()
 	vector<string> Spaces(2000);
 	vector<string> json(2000);
 
-
-	ifstream in("Trial.txt");				// READ FROM Trial.txt file
-
 	XML_Parser(Tags, NumOfLines, XML_original, XML_FixedErrors);		// FIND ERRORS AND FIX THEM
 
 	XML_indent(Spaces, XML_FixedErrors);									// TO GET INDENTION LEVELS TO PRINT OUT XML LINES CORRECTLY
 
 
-	cout << "-----------------------------      BEFORE FIX  WITH INDENTION     -----------------------------" << " \n \n ";
-	Print_XML(Spaces, XML_original, NumOfLines);
+	//cout << "-----------------------------      BEFORE FIX  WITH INDENTION     -----------------------------" << " \n \n ";
+	//Print_XML(Spaces, XML_original, NumOfLines);
 
 
-	cout << "-----------------------------      AFTER FIX  WITH INDENTION     -----------------------------" << " \n \n ";
+	//cout << "-----------------------------      AFTER FIX  WITH INDENTION     -----------------------------" << " \n \n ";
 	Print_XML(Spaces, XML_FixedErrors, NumOfLines);
 
 	cout << "------------------------------      XML TO JSON    ------------------------------------" << " \n \n ";
@@ -366,13 +401,3 @@ int main()
 	return 0;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started:
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
