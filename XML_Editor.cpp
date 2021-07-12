@@ -14,16 +14,19 @@ void Print_XML(vector<string> Spaces, const vector<string> &XML_string, int size
 
 
 
-void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, vector<string> &XML_Fix)
+void XML_Parser(vector<string> &OpenTags, int &lines, vector<string> &XML_Original, vector<string> &XML_Fix)
 {
-	char start;
-	char end;
-	char anotherend;
 
-	int NumOpenTags=0;
+	int OpenTagIndex=0;
 	string temp;
 	string t;
 	stack <string> OpenAngleStack;
+
+	char start;
+	char end;
+	char anotherend;
+	bool info = false;
+
 
 	ifstream indata;
 	indata.open("Trial.txt");
@@ -40,6 +43,10 @@ void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, 
 			XML_Original[lines]= temp;
 			XML_Fix[lines] = temp;
 			lines++;
+
+			if( !OpenAngleStack.empty() && (temp.find("<") == -1) && ( temp != "" ) && OpenTags[OpenTagIndex-1] == OpenAngleStack.top() )
+			{	info = true; }
+
 			continue;
 		}
 
@@ -49,11 +56,12 @@ void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, 
 
 		if (temp[start] == '/')
 		{
+			info = false;
 			t = temp.substr((start + 1), end - (start + 1)); 				// we want the string without '/' to compare with the top of the stack
 
 			if (t != OpenAngleStack.top())
 			{
-				XML_Original[lines] += "    <----error here";					// Indicate Error
+				XML_Original[lines] += " \t \t  <----error here";				// Indicate Error
 				XML_Fix[lines] = ("</" + OpenAngleStack.top() + ">");			// To Fix Errors
 				OpenAngleStack.pop();											// Pop stack to indicate new errors
 			}
@@ -65,21 +73,34 @@ void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, 
 
 		else
 		{
+
+			/* In Case the opening tag contains information in a new line and there was no closed tag ( missing closed tag ) SPECIAL CASE FOR ERRORS */
+
+			if (info == true)
+			{
+				XML_Original[lines-1] += " \t \t   <----error here";			// Indicate Error
+				XML_Fix[lines-1] = ("</" + OpenAngleStack.top() + ">");			// To Fix Errors
+				OpenAngleStack.pop();											// Pop stack to indicate new errors
+				lines++;
+				continue;
+			}
+
+
 			/* Only push keyword in the stack for example "synset type="a" id=a00001740" ( Only push synset ) */
 			anotherend = temp.find(" ");
 			if (anotherend > start && anotherend < end)
-				tags[NumOpenTags] = temp.substr(start, anotherend - start);
+				OpenTags[OpenTagIndex] = temp.substr(start, anotherend - start);
 
 			else
-				tags[NumOpenTags] = temp.substr(start, end - start);
+				OpenTags[OpenTagIndex] = temp.substr(start, end - start);
 
-			if (tags[NumOpenTags] == "frame")						// Self Closing Tags
+			if (OpenTags[OpenTagIndex] == "frame")						// Self Closing Tags
 			{
 				lines++;
 				continue;
 			}
 
-			OpenAngleStack.push(tags[NumOpenTags++]);
+			OpenAngleStack.push(OpenTags[OpenTagIndex++]);
 
 
 			/* Check if the closing angle is in the same string if so parse it and check for errors */
@@ -93,14 +114,14 @@ void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, 
 
 				if (temp.find("<") == -1 || temp.find(">") == -1)					// Closed angle is missing
 				{
-					XML_Original[lines] += "    <----error here";					// Indicate Error
+					XML_Original[lines] += " \t \t  <----error here";					// Indicate Error
 					XML_Fix[lines] += ("</" + OpenAngleStack.top() + ">");		// Fix
 					OpenAngleStack.pop();											// Pop stack to indicate new errors in next iteration
 				}
 
 				else if (t != OpenAngleStack.top())
 				{
-					XML_Original[lines] += "    <----error here";													// Indicate Error
+					XML_Original[lines] += "  \t \t <----error here";													// Indicate Error
 					XML_Fix[lines] = XML_Fix[lines].substr(0, start) + ("</" + OpenAngleStack.top() + ">");		// Fix ( Remove wrong tag and place correct tag )
 					OpenAngleStack.pop();																			// Pop stack to indicate new errors in next iteration
 				}
@@ -117,8 +138,8 @@ void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, 
 
 	while (OpenAngleStack.empty() == false)
 	{
-		XML_Original[lines] = "    <----error here";					// Last angle missing  ( ERROR )
-		XML_Fix[lines] += ("</" + OpenAngleStack.top() + ">");		// Fix
+		XML_Original[lines] = " \t \t    <----error here";					// Last angle missing  ( ERROR )
+		XML_Fix[lines] += ("</" + OpenAngleStack.top() + ">");				// Fix
 		OpenAngleStack.pop();
 		lines++;														// Increase size of lines
 	}
@@ -226,11 +247,10 @@ void xml_json(vector<string>&xml, vector<string>&json, vector<string>&newspaces,
 	string previous;
 	string temp;
 	string t;
-	bool repeated = false;
+	int repeated = 0;
 	bool flag = false;
 	stack <string> st;
 	int start, end, anotherend;
-	int i = 0;
 	int index = 1;
 
 
@@ -247,7 +267,7 @@ void xml_json(vector<string>&xml, vector<string>&json, vector<string>&newspaces,
 		if (temp[start] == '/')
 		{
 			t = temp.substr(start+1, end - (start+1));
-			if (repeated==true)
+			if (repeated==0)
 			{
 				json[index] = "]";
 			}
