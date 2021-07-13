@@ -6,10 +6,11 @@
 
 using namespace std;
 
-void Print_XML(vector<string> Spaces, const vector<string> &XML_string, int size)   // Passed constant by reference to save memory and time
+
+void Output_File(const vector<string> &Spaces, const vector<string> &XML_string, int size)	  // Passed constant by reference to save memory and time
 {
 	fstream newfile;
-	newfile.open("newxml.xml",ios::out);
+	newfile.open("TEXTOUTPUT.txt",ios::out);
 	if(newfile.is_open())
 	{
 		for (int i = 0; i < size; i++)
@@ -19,6 +20,13 @@ void Print_XML(vector<string> Spaces, const vector<string> &XML_string, int size
 	}
 }
 
+
+
+void Print_XML(const vector<string> &Spaces, const vector<string> &XML_string, int size)   // Passed constant by reference to save memory and time
+{
+	for (int i = 0; i < size; i++)
+		cout << Spaces[i] << XML_string[i] << "\n";
+}
 
 
 void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, vector<string> &XML_Fix)
@@ -38,6 +46,8 @@ void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, 
 	indata.open("Trial.txt"); //opening file with input mode
 	string file_data;
 	int file_data_index=0;
+
+
 	if(indata.is_open()) //check if file if correctly opened
 	{
 		string line;
@@ -143,31 +153,25 @@ void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, 
 
 			/*
 			//Check if the closing angle is in the same string if so parse it and check for errors
-
 			temp = temp.substr(end + 1);
-
 			if (temp != "") {
 				start = temp.find("<") + 1;
 				end = temp.find(">");
 				t = temp.substr(start + 1, end - (start + 1));
-
 				if (temp.find("<") == -1 || temp.find(">") == -1)					// Closed angle is missing
 				{
 					XML_Original[lines] += "    <----error here";					// Indicate Error
 					XML_Fix[lines] += ("</" + OpenAngleStack.top() + ">");		// Fix
 					OpenAngleStack.pop();											// Pop stack to indicate new errors in next iteration
 				}
-
 				else if (t != OpenAngleStack.top())
 				{
 					XML_Original[lines] += "    <----error here";													// Indicate Error
 					XML_Fix[lines] = XML_Fix[lines].substr(0, start) + ("</" + OpenAngleStack.top() + ">");		// Fix ( Remove wrong tag and place correct tag )
 					OpenAngleStack.pop();																			// Pop stack to indicate new errors in next iteration
 				}
-
 				else
 					OpenAngleStack.pop();											// No errors angles match !!
-
 			}*/
 		}
 		lines++;
@@ -177,12 +181,15 @@ void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, 
 	while (OpenAngleStack.empty() == false)
 	{
 		XML_Original[lines] = "    <----error here";					// Last angle missing  ( ERROR )
-		XML_Fix[lines] += ("</" + OpenAngleStack.top() + ">");		// Fix
+		XML_Fix[lines] += ("</" + OpenAngleStack.top() + ">");		    // Fix
 		OpenAngleStack.pop();
 		lines++;														// Increase size of lines
 	}
 
 }
+
+
+
 
 
 void indent(vector<string> &space, int &index, int NumOfSpaces)
@@ -279,6 +286,27 @@ void XML_indent(vector<string> &OutputSpaces, vector<string> &XML_Fixed)
 	}
 }
 
+void XML_Minify(const vector<string> &XML_fixed, int size)
+{
+	fstream newfile;
+	newfile.open("DATA.xml",ios::out);
+
+	if(newfile.is_open())
+	{
+		for (int i = 0; i < size; i++)
+		{
+			if (XML_fixed[i] == "" )    continue;			// if empty string skip
+
+			newfile << XML_fixed[i] << "\n";
+			cout    << XML_fixed[i] <<" \n";
+		}
+	}
+
+}
+
+
+
+
 void xml_json(vector<string>&xml, vector<string>&json, vector<string>&newspaces, vector<string>&tagnames, int spacesize)
 {
 	int j = 4;
@@ -374,19 +402,7 @@ void xml_json(vector<string>&xml, vector<string>&json, vector<string>&newspaces,
 	json[index] = "}";
 }
 
-void XML_Minify(const vector<string> &XML_string, int size)
-{
-	fstream newfile;
-	newfile.open("xml_minify.xml",ios::out);
-	if(newfile.is_open())
-	{
-		for (int i = 0; i < size; i++)
-		{
-			newfile << XML_string[i] << "\n";
-		}
-	}
 
-}
 
 int main()
 {
@@ -397,24 +413,39 @@ int main()
 	vector<string> Spaces(2000);
 	vector<string> json(2000);
 
+
 	XML_Parser(Tags, NumOfLines, XML_original, XML_FixedErrors);		// FIND ERRORS AND FIX THEM
 
 	XML_indent(Spaces, XML_FixedErrors);									// TO GET INDENTION LEVELS TO PRINT OUT XML LINES CORRECTLY
 
 
-	//cout << "-----------------------------      BEFORE FIX  WITH INDENTION     -----------------------------" << " \n \n ";
-	//Print_XML(Spaces, XML_original, NumOfLines);
+	cout << "-----------------------------      BEFORE FIX  WITH INDENTION     -----------------------------" << " \n \n ";
+	Print_XML(Spaces, XML_original, NumOfLines);
+	Output_File(Spaces, XML_original, NumOfLines);
 
-
-	//cout << "-----------------------------      AFTER FIX  WITH INDENTION     -----------------------------" << " \n \n ";
+	cout << "-----------------------------      AFTER FIX  WITH INDENTION     -----------------------------" << " \n \n ";
 	Print_XML(Spaces, XML_FixedErrors, NumOfLines);
-
-	//cout << "-----------------------------      AFTER FIX  WITH MINIFY    -----------------------------" << " \n \n ";
-	XML_Minify(XML_FixedErrors, NumOfLines);
+	Output_File(Spaces, XML_FixedErrors, NumOfLines);
 
 	cout << "------------------------------      XML TO JSON    ------------------------------------" << " \n \n ";
+
+
+
+	cout << "------------------------------      MINIFYING    ------------------------------------" << " \n \n ";
+	XML_Minify(XML_FixedErrors,NumOfLines);
+
 
 
 	return 0;
 }
 
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started:
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
