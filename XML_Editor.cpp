@@ -374,6 +374,20 @@ void xml_json(vector<string>&xml, vector<string>&json, vector<string>&newspaces,
 	json[index] = "}";
 }
 
+void XML_Minify(const vector<string> &XML_string, int size)
+{
+	fstream newfile;
+	newfile.open("xml_minify.xml",ios::out);
+	if(newfile.is_open())
+	{
+		for (int i = 0; i < size; i++)
+		{
+			newfile << XML_string[i] << "\n";
+		}
+	}
+
+}
+
 int main()
 {
 	int NumOfLines = 0;
@@ -394,6 +408,9 @@ int main()
 
 	//cout << "-----------------------------      AFTER FIX  WITH INDENTION     -----------------------------" << " \n \n ";
 	Print_XML(Spaces, XML_FixedErrors, NumOfLines);
+
+	//cout << "-----------------------------      AFTER FIX  WITH MINIFY    -----------------------------" << " \n \n ";
+	XML_Minify(XML_FixedErrors, NumOfLines);
 
 	cout << "------------------------------      XML TO JSON    ------------------------------------" << " \n \n ";
 
