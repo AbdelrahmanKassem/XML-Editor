@@ -28,7 +28,7 @@ int main()
 	 Output_File(Spaces, XML_original, NumOfLines);
 
 	cout << "-----------------------------      AFTER FIX  WITH INDENTION     -----------------------------" << " \n \n ";
-	 Print_XML(Spaces, XML_FixedErrors, NumOfLines);
+	// Print_XML(Spaces, XML_FixedErrors, NumOfLines);
 	//Output_File(Spaces, XML_FixedErrors, NumOfLines);
 
 	cout << "------------------------------      XML TO JSON    ------------------------------------" << " \n \n ";

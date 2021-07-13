@@ -74,6 +74,7 @@ void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_O
 	string temp;
 	string t;
 	stack <string> OpenAngleStack;
+	bool info = false;
 
 	string file_data = read_file(); //this line will be removed when we implement the function with gui
 	Text_to_Vector(file_data,XML_ReadFile, XML_Size);
@@ -89,6 +90,12 @@ void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_O
  		{
 			XML_Original[lines]= temp;
 			XML_Fix[lines] = temp;
+
+			if( !OpenAngleStack.empty() && (temp.find("<") == -1) && ( temp != "" ) && tags[NumOpenTags-1] == OpenAngleStack.top() )
+			{
+				info = true;
+			}
+
 			lines++;
 			continue;
 		}
@@ -99,6 +106,7 @@ void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_O
 
 		if (temp[start] == '/')
 		{
+			info = false;
 			t = temp.substr((start + 1), end - (start + 1)); 				// we want the string without '/' to compare with the top of the stack
 
 			if (t != OpenAngleStack.top())
@@ -114,6 +122,25 @@ void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_O
 
 		else
 		{
+
+			/* In Case the opening tag contains information in a new line and there was no closed tag ( missing closed tag ) SPECIAL CASE FOR ERRORS */
+
+			if ((end!=-1) && (temp[end - 1] == '/'))				// SELF CLOSING TAGS
+			{
+				lines++;
+				continue;
+			}
+
+			if (info == true)
+			{
+				XML_Original[lines] += " \t \t   <----error here";			// Indicate Error
+				XML_Fix[lines-1] = ("</" + OpenAngleStack.top() + ">");			// To Fix Errors
+				OpenAngleStack.pop();											// Pop stack to indicate new errors
+				lines++;
+				continue;
+			}
+
+
 			/* Only push keyword in the stack for example "synset type="a" id=a00001740" ( Only push synset ) */
 			anotherend = temp.find(" ");
 			if (anotherend > start && anotherend < end)
@@ -122,13 +149,9 @@ void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_O
 			else
 				tags[NumOpenTags] = temp.substr(start, end - start);
 
-			if (tags[NumOpenTags] == "frame")						// Self Closing Tags
-			{
-				lines++;
-				continue;
-			}
 
 			OpenAngleStack.push(tags[NumOpenTags++]);
+
 
 		}
 		lines++;
