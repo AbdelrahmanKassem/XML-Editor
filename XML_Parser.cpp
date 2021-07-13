@@ -18,12 +18,11 @@ string read_file(void)
 	return file_data;
 }
 
-void Text_to_Vector(string file_data,vector<string> &XML_Vector)
+void Text_to_Vector(string file_data,vector<string> &XML_Vector , unsigned int &XML_Size)
 {
 	int str_start;
 	int str_end;
 	int file_data_index=0;
-	int line_num=0;
 	while(file_data[file_data_index] != '\0')
 	{
 		string line="";
@@ -60,12 +59,11 @@ void Text_to_Vector(string file_data,vector<string> &XML_Vector)
 			}
 
 		file_data_index = str_end+1;
-		XML_Vector[line_num] = file_data.substr(str_start, str_end - str_start +1);
-		line_num++;
+		XML_Vector[XML_Size++]=(file_data.substr(str_start, str_end - str_start +1));
 	}
 }
 
-void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, vector<string> &XML_Fix , vector<string> &XML_ReadFile)
+void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_Original, vector<string> &XML_Fix , vector<string> &XML_ReadFile , unsigned int &XML_Size)
 {
 
 	char start;
@@ -78,12 +76,11 @@ void XML_Parser(vector<string> &tags, int &lines, vector<string> &XML_Original, 
 	stack <string> OpenAngleStack;
 
 	string file_data = read_file(); //this line will be removed when we implement the function with gui
-	Text_to_Vector(file_data,XML_ReadFile);
+	Text_to_Vector(file_data,XML_ReadFile, XML_Size);
 
-	int current_line=0;
-	while(current_line < XML_ReadFile.size())
+	while( lines < XML_Size)
 	{
-		temp = XML_ReadFile[current_line++];
+		temp = XML_ReadFile[lines];
 		XML_Original[lines] = temp;
 		XML_Fix[lines] = temp;
 
@@ -166,9 +163,6 @@ void Output_File(const vector<string> &Spaces, const vector<string> &XML_string,
 void Print_XML(const vector<string> &Spaces, const vector<string> &XML_string, int size)   // Passed constant by reference to save memory and time
 {
 	for (int i = 0; i < size; i++)
-		cout <<XML_string[i] << "\n";
-	while(1)
-	{
+		cout << Spaces[i] << XML_string[i] << "\n";
 
-	}
 }
