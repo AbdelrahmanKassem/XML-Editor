@@ -19,6 +19,6 @@ using namespace std;
 
 #include "XML_Pretify.h"
 
-void xml_json(vector<string>&xml, vector<string>&json, int &index);
+void xml_json(vector<string>&xml, vector<string>&json, unsigned int &size , unsigned int &index );
 
 #endif /* XML_JSON_H_ */
