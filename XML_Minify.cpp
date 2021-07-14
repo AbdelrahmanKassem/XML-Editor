@@ -12,7 +12,7 @@ void XML_Minify(const vector<string> &XML_fixed, int size)
 			if (XML_fixed[i] == "" )    continue;			// if empty string skip
 
 			newfile << XML_fixed[i] << "\n";
-			//cout    << XML_fixed[i] <<" \n";
+			cout    << XML_fixed[i] <<" \n";
 		}
 	}
 

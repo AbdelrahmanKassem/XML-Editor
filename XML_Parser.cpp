@@ -18,7 +18,7 @@ string read_file(void)
 	return file_data;
 }
 
-void Text_to_Vector(string file_data,vector<string> &XML_Vector , unsigned int &XML_Size)
+void XML_Parser(string file_data,vector<string> &XML_Vector , unsigned int &XML_Size)
 {
 	int str_start;
 	int str_end;
@@ -63,13 +63,13 @@ void Text_to_Vector(string file_data,vector<string> &XML_Vector , unsigned int &
 	}
 }
 
-void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_Original, vector<string> &XML_Fix , vector<string> &XML_ReadFile , unsigned int &XML_Size)
+void XML_FixErrors(vector<string> &tags, unsigned int &lines, vector<string> &XML_Original, vector<string> &XML_Fix , vector<string> &XML_ReadFile , unsigned int &XML_Size)
 {
 
 	char start;
 	char end;
 	char anotherend;
-
+	int Index=0;
 	int NumOpenTags=0;
 	string temp;
 	string t;
@@ -77,11 +77,11 @@ void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_O
 	bool info = false;
 
 	string file_data = read_file(); //this line will be removed when we implement the function with gui
-	Text_to_Vector(file_data,XML_ReadFile, XML_Size);
+	XML_Parser(file_data,XML_ReadFile, XML_Size);
 
-	while( lines < XML_Size)
+	while( lines <  ( XML_Size + (lines-Index) )  )			// lines can be bigger than XML_Size in some cases to solve this (line-index) difference
 	{
-		temp = XML_ReadFile[lines];
+		temp = XML_ReadFile[Index++];
 		XML_Original[lines] = temp;
 		XML_Fix[lines] = temp;
 
@@ -91,10 +91,9 @@ void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_O
 			XML_Original[lines]= temp;
 			XML_Fix[lines] = temp;
 
-			if( !OpenAngleStack.empty() && (temp.find("<") == -1) && ( temp != "" ) && tags[NumOpenTags-1] == OpenAngleStack.top() )
-			{
+			if( ( temp != "" ) && !OpenAngleStack.empty() && (temp.find("<") == -1)  && tags[NumOpenTags-1] == OpenAngleStack.top() )
 				info = true;
-			}
+
 
 			lines++;
 			continue;
@@ -109,7 +108,14 @@ void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_O
 			info = false;
 			t = temp.substr((start + 1), end - (start + 1)); 				// we want the string without '/' to compare with the top of the stack
 
-			if (t != OpenAngleStack.top())
+			if( OpenAngleStack.empty() )
+			{
+				lines++;
+				continue;
+			}
+
+
+			if (t != OpenAngleStack.top() )
 			{
 				XML_Original[lines] += "    <----error here";					// Indicate Error
 				XML_Fix[lines] = ("</" + OpenAngleStack.top() + ">");			// To Fix Errors
@@ -127,17 +133,23 @@ void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_O
 
 			if ((end!=-1) && (temp[end - 1] == '/'))				// SELF CLOSING TAGS
 			{
-				lines++;
-				continue;
+				lines++;		continue;
 			}
 
 			if (info == true)
 			{
-				XML_Original[lines] += " \t \t   <----error here";			// Indicate Error
-				XML_Fix[lines-1] = ("</" + OpenAngleStack.top() + ">");			// To Fix Errors
+				info =false;
+
+				/* SAVE THE NEW OPEN TAG IN A NEW LINE */
+				XML_Original[lines+1] = XML_Original[lines];
+				XML_Fix[lines+1] = 	XML_Fix[lines];
+
+				/* MAKE AN EMPTY LINE WHERE WE'LL INDICATE THE ERROR AND FIX IT */
+				XML_Original[lines] = " \t \t   <----error here";			// Indicate Error
+				XML_Fix[lines] = ("</" + OpenAngleStack.top() + ">");			// To Fix Errors
+
 				OpenAngleStack.pop();											// Pop stack to indicate new errors
 				lines++;
-				continue;
 			}
 
 
@@ -160,32 +172,10 @@ void XML_Parser(vector<string> &tags, unsigned int &lines, vector<string> &XML_O
 
 	while (OpenAngleStack.empty() == false)
 	{
-		XML_Original[lines] = "    <----error here";					// Last angle missing  ( ERROR )
+		XML_Original[lines] = "    <----error here";					// Last closed tag missing  ( ERROR )
 		XML_Fix[lines] += ("</" + OpenAngleStack.top() + ">");		    // Fix
 		OpenAngleStack.pop();
 		lines++;														// Increase size of lines
 	}
-
-}
-
-void Output_File(const vector<string> &Spaces, const vector<string> &XML_string, int size)	  // Passed constant by reference to save memory and time
-{
-	fstream newfile;
-	newfile.open("TEXTOUTPUT.xml",ios::out);
-	if(newfile.is_open())
-	{
-		for (int i = 0; i < size; i++)
-		{
-			newfile << Spaces[i] << XML_string[i] << "\n";
-		}
-	}
-}
-
-
-
-void Print_XML(const vector<string> &Spaces, const vector<string> &XML_string, int size)   // Passed constant by reference to save memory and time
-{
-	for (int i = 0; i < size; i++)
-		cout << Spaces[i] << XML_string[i] << "\n";
 
 }

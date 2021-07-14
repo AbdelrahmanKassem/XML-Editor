@@ -10,7 +10,7 @@ void indent(vector<string> &space, int &index, int NumOfSpaces)
 }
 
 
-void XML_indent(vector<string> &OutputSpaces, vector<string> &XML_Fixed)
+void XML_indent(vector<string> &OutputSpaces, vector<string> &XML_Fixed , unsigned int SizeOfXML)
 {
 	char start;
 	char end;
@@ -19,14 +19,12 @@ void XML_indent(vector<string> &OutputSpaces, vector<string> &XML_Fixed)
 	unsigned int LineIndex = 0;
 	int size = 0;
 
-	ifstream indata;
-	indata.open("Trial.txt");
 	string temp;
 	string t;
 	int j = 0;
 	stack <string> OpenAngleStack;
 
-	while (LineIndex < XML_Fixed.size())
+	while (LineIndex < SizeOfXML )			// if we use vector.size() it will compare it with the number allocated to it 6000 in our case
 	{
 		temp = XML_Fixed[(LineIndex)];
 		LineIndex++;
@@ -49,6 +47,13 @@ void XML_indent(vector<string> &OutputSpaces, vector<string> &XML_Fixed)
 
 		else
 		{
+
+			if ((end!=-1) && (temp[end-1] == '/'))						// SELF CLOSING TAGS
+			{
+				indent(OutputSpaces, size, j);
+				continue;
+			}
+
 			anotherend = temp.find(" ");
 			if (anotherend > start && anotherend < end)
 			{
