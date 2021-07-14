@@ -63,7 +63,7 @@ void XML_Parser(string file_data,vector<string> &XML_Vector , unsigned int &XML_
 	}
 }
 
-void XML_FixErrors(vector<string> &tags, unsigned int &lines, vector<string> &XML_Original, vector<string> &XML_Fix , vector<string> &XML_ReadFile , unsigned int &XML_Size)
+void XML_FixErrors( unsigned int &lines, vector<string> &XML_Original, vector<string> &XML_Fix , vector<string> &XML_ReadFile , unsigned int &XML_Size)
 {
 
 	char start;
@@ -74,6 +74,7 @@ void XML_FixErrors(vector<string> &tags, unsigned int &lines, vector<string> &XM
 	string temp;
 	string t;
 	stack <string> OpenAngleStack;
+	string pushedTag;
 	bool info = false;
 
 	string file_data = read_file(); //this line will be removed when we implement the function with gui
@@ -91,7 +92,7 @@ void XML_FixErrors(vector<string> &tags, unsigned int &lines, vector<string> &XM
 			XML_Original[lines]= temp;
 			XML_Fix[lines] = temp;
 
-			if( ( temp != "" ) && !OpenAngleStack.empty() && (temp.find("<") == -1)  && tags[NumOpenTags-1] == OpenAngleStack.top() )
+			if( ( temp != "" ) && !OpenAngleStack.empty() && (temp.find("<") == -1)  && pushedTag == OpenAngleStack.top() )
 				info = true;
 
 
@@ -156,13 +157,13 @@ void XML_FixErrors(vector<string> &tags, unsigned int &lines, vector<string> &XM
 			/* Only push keyword in the stack for example "synset type="a" id=a00001740" ( Only push synset ) */
 			anotherend = temp.find(" ");
 			if (anotherend > start && anotherend < end)
-				tags[NumOpenTags] = temp.substr(start, anotherend - start);
+				pushedTag = temp.substr(start, anotherend - start);
 
 			else
-				tags[NumOpenTags] = temp.substr(start, end - start);
+				pushedTag= temp.substr(start, end - start);
 
 
-			OpenAngleStack.push(tags[NumOpenTags++]);
+			OpenAngleStack.push(pushedTag);
 
 
 		}

@@ -13,11 +13,9 @@ vector<string> JSON(MAX_SIZE);
 
 int main()
 {
-
-	vector<string> Tags(MAX_SIZE);
 	vector<string> XML_ReadFile(MAX_SIZE);
 
-	XML_FixErrors(Tags, NumOfLines, XML_original, XML_FixedErrors,XML_ReadFile , sizeOfXML);		// FIND ERRORS AND FIX THEM
+	XML_FixErrors( NumOfLines, XML_original, XML_FixedErrors,XML_ReadFile , sizeOfXML);		// FIND ERRORS AND FIX THEM
 
 	XML_indent(Spaces, XML_FixedErrors , NumOfLines );												// TO GET INDENTION LEVELS TO PRINT OUT XML LINES CORRECTLY
 
@@ -43,7 +41,6 @@ int main()
 
 	cout << "------------------------------      MINIFYING    ------------------------------------" << " \n \n ";
 	XML_Minify(XML_FixedErrors,NumOfLines);
-
 
 
 	return 0;
@@ -84,7 +81,6 @@ void Print_XML( const vector<string> &XML_string, int size)   // Passed constant
 		cout <<  XML_string[i] << "\n";
 
 }
-
 
 
 void Print_XML(const vector<string> &Spaces, const vector<string> &XML_string, int size)   // Passed constant by reference to save memory and time
