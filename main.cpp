@@ -10,6 +10,7 @@ using namespace std;
 
 void Output_File( const vector<string> &XML_string, int size);
 void Output_File(const vector<string> &Spaces, const vector<string> &XML_string, int size);
+void Print_XML( const vector<string> &XML_string, int size);
 void Print_XML(const vector<string> &Spaces, const vector<string> &XML_string, int size);
 
 
@@ -40,7 +41,7 @@ int main()
 
 	cout << "------------------------------      XML TO JSON    ------------------------------------" << " \n \n ";
 	xml_json(XML_FixedErrors, JSON , NumOfLines, sizeOfJSON );
-	Print_XML(Spaces, JSON, sizeOfJSON);
+	Print_XML(  JSON, sizeOfJSON);
 	Output_File(JSON , sizeOfJSON);
 
 	cout << "------------------------------      MINIFYING    ------------------------------------" << " \n \n ";
@@ -78,6 +79,13 @@ void Output_File(const vector<string> &Spaces, const vector<string> &XML_string,
 			newfile << Spaces[i] << XML_string[i] << "\n";
 		}
 	}
+}
+
+void Print_XML( const vector<string> &XML_string, int size)   // Passed constant by reference to save memory and time
+{
+	for (int i = 0; i < size; i++)
+		cout <<  XML_string[i] << "\n";
+
 }
 
 

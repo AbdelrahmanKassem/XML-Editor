@@ -79,7 +79,7 @@ void xml_json(vector<string>&xml, vector<string>&json, unsigned int &size , unsi
 				json[index] = "'" + t + "'" + ":" + "{";
 
 			else
-				json[index] = AdjustSpaces(WordLength.top()-1) + ", {";
+				json[index] = AdjustSpaces(WordLength.top()-2) + ", {";
 
 
 			WordLength.push(json[index].length());
