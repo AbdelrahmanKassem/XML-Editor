@@ -1,31 +1,21 @@
-
-#include "XML_Parser.h"
-#include "XML_Pretify.h"
-#include "XML_Minify.h"
-#include "XML_JSON.h"
-#include "XML_Parser.h"
+#include "main.h"
 using namespace std;
 
-#define MAX_SIZE 6000
+unsigned int NumOfLines = 0;
+unsigned int sizeOfXML =0;
+unsigned int sizeOfJSON =0;
 
-void Output_File( const vector<string> &XML_string, int size);
-void Output_File(const vector<string> &Spaces, const vector<string> &XML_string, int size);
-void Print_XML( const vector<string> &XML_string, int size);
-void Print_XML(const vector<string> &Spaces, const vector<string> &XML_string, int size);
+vector<string> XML_original(MAX_SIZE);
+vector<string> XML_FixedErrors(MAX_SIZE);
+vector<string> Spaces(MAX_SIZE);
+vector<string> JSON(MAX_SIZE);
 
 
 int main()
 {
-	unsigned int NumOfLines = 0;
-	unsigned int sizeOfXML =0;
-	unsigned int sizeOfJSON =0;
 
 	vector<string> Tags(MAX_SIZE);
 	vector<string> XML_ReadFile(MAX_SIZE);
-	vector<string> XML_original(MAX_SIZE);
-	vector<string> XML_FixedErrors(MAX_SIZE);
-	vector<string> Spaces(MAX_SIZE);
-	vector<string> JSON(MAX_SIZE);
 
 	XML_FixErrors(Tags, NumOfLines, XML_original, XML_FixedErrors,XML_ReadFile , sizeOfXML);		// FIND ERRORS AND FIX THEM
 
