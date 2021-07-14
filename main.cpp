@@ -31,6 +31,13 @@ int main()
 
 	XML_indent(Spaces, XML_FixedErrors , NumOfLines );												// TO GET INDENTION LEVELS TO PRINT OUT XML LINES CORRECTLY
 
+
+	cout << "-----------------------------      BEFORE FIX  WITHOUT INDENTION     -----------------------------" << " \n \n ";
+	Print_XML( XML_original, NumOfLines);
+
+	cout << "-----------------------------      AFTER FIX  WITHOUT INDENTION     -----------------------------" << " \n \n ";
+	Print_XML(Spaces, XML_FixedErrors, NumOfLines);
+
 	cout << "-----------------------------      BEFORE FIX  WITH INDENTION     -----------------------------" << " \n \n ";
 	Print_XML(Spaces, XML_original, NumOfLines);
 	Output_File(Spaces, XML_original, NumOfLines);
