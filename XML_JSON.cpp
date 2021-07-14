@@ -14,8 +14,7 @@ string AdjustSpaces(int NumOfSpaces)
 }
 
 
-
-void xml_json(vector<string>&xml, vector<string>&json, unsigned int &size , unsigned int &index )
+void xml_json(vector<string>&xml, vector<string>&json, unsigned int &size, unsigned int &index)
 {
 	string previous;
 	string temp;
@@ -70,16 +69,22 @@ void xml_json(vector<string>&xml, vector<string>&json, unsigned int &size , unsi
 
 			else
 				t = temp.substr(start, end - start);
-
+			if (temp[end - 1] == '/')
+				continue;
 
 			st.push(t);
 			empty = true;
 
-			if (t != previous)
+			if (t != previous && WordLength.empty() == false)
+			{
+				json[index] = AdjustSpaces(WordLength.top() - 2) + "'" + t + "'" + ":" + "{";
+
+			}
+			else if (t != previous)
 				json[index] = "'" + t + "'" + ":" + "{";
 
 			else
-				json[index] = AdjustSpaces(WordLength.top()-2) + ", {";
+				json[index] = AdjustSpaces(WordLength.top() - 2) + ", {";
 
 
 			WordLength.push(json[index].length());
