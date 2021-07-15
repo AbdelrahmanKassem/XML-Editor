@@ -13,6 +13,12 @@ void Print_XML(vector<string> Spaces, const vector<string> &XML_string, int size
 		cout << Spaces[i] << XML_string[i] << "\n";
 }
 
+void Print_XML(const vector<string> &XML_string, int size)   // Passed constant by reference to save memory and time
+{
+	for (int i = 0; i < size; i++)
+		cout << XML_string[i] << "\n";
+
+}
 
 
 void XML_Parser(vector<string> &OpenTags, int &lines, vector<string> &XML_Original, vector<string> &XML_Fix)
@@ -278,22 +284,30 @@ void XML_indent(vector<string> &OutputSpaces, vector<string> &XML_Fixed)
 		}
 	}
 }*/
+string AdjustSpaces(int NumOfSpaces)
+{
+	string Numspace;
+	for (int i = 0; i < NumOfSpaces; i++)
+	{
+		Numspace += " ";
+	}
+
+	return Numspace;
+}
+
 
 void xml_json(vector<string>&xml, vector<string>&json, int &index)
 {
 	//int j = 4;
 	string previous;
 	string temp;
-	string temp1;
 	string t;
 	string text;
-	//int repeated = 0;
+	int repeated = 0;
 	bool flag = false;
-	bool repeated = false;
-	bool sameline;
+	bool empty = false;
 	stack <string> st;
-	int start, end, anotherend, mark;
-	int lastindex1, lastindex2;
+	int start, end, anotherend;
 	index = 1;
 
 
@@ -309,15 +323,28 @@ void xml_json(vector<string>&xml, vector<string>&json, int &index)
 		end = temp.find(">");
 		if (start == 0 && end == -1)
 		{
-			json[index] = temp;
+			if (empty == true)
+			{
+				json[index] = temp;
+			}
+			else
+			{
+				continue;
+			}
 		}
 		else if (temp[start] == '/')
 		{
 			t = temp.substr(start + 1, end - (start + 1));
 			previous = t;
+			/*if (repeated==0)
+			{
+				json[index] = "]";
+			}
+			else
+			{
+				json[index] = "}";
+			}*/
 			json[index] = "}";
-			lastindex1 = index;
-			//sameline = false;
 			st.pop();
 			//j = j - 4;
 
@@ -339,6 +366,7 @@ void xml_json(vector<string>&xml, vector<string>&json, int &index)
 				continue;
 			}
 			st.push(t);
+			empty = true;
 			//j = j + 4;
 			/*if (i!=tagnames.size() && (tagnames[i]==tagnames[i+1]))
 			{
@@ -348,42 +376,13 @@ void xml_json(vector<string>&xml, vector<string>&json, int &index)
 			{
 				json[index] = "'" + t + "'" + ":" + "{";
 			}*/
-			if (t != previous && repeated == false)
+			if (t != previous)
 			{
 				json[index] = "'" + t + "'" + ":" + "{";
-				lastindex2 = index;
-			}
-			else if (t != previous && repeated == true)
-			{
-				json[index] = "'" + t + "'" + ":" + "{";
-				if (json[lastindex1] == "}")
-				{
-					json[lastindex1] = "]";
-				}
-				else
-				{
-					json[lastindex1] += "]";
-				}
-
-				previous = "";
-				repeated = false;
-				lastindex2 = index;
 			}
 			else
 			{
-				if (repeated == false)
-				{
-					repeated = true;
-					temp1 = json[lastindex2];
-					mark = temp1.find(":");
-					json[lastindex2] = temp1.substr(0, mark) + "[" + temp1.substr(mark + 1);
-					json[index] = ", {";
-				}
-				else
-				{
-					json[index] = ", {";
-				}
-
+				json[index] = ", {";
 			}
 
 			temp = temp.substr(end + 1);
@@ -401,8 +400,6 @@ void xml_json(vector<string>&xml, vector<string>&json, int &index)
 					json[index] = text + "}";
 				}*/
 				json[index] += text + "}";
-				lastindex1 = index;
-				//sameline = true;
 				//j = j - 4;
 
 			}
@@ -446,7 +443,7 @@ int main()
 
 	XML_indent(Spaces, XML_FixedErrors);	// TO GET INDENTION LEVELS TO PRINT OUT XML LINES CORRECTLY
 
-	xml_json(XML_FixedErrors, json, index);
+	
 
 	//count(Tags, order, puttagname);
 
@@ -459,10 +456,8 @@ int main()
 	Print_XML(Spaces, XML_FixedErrors, NumOfLines);
 
 	cout << "------------------------------      XML TO JSON    ------------------------------------" << " \n \n ";
-	for (int i = 0; i < index; i++)
-	{
-		cout << json[i] << endl;
-	}
+	xml_json(XML_FixedErrors, json, index);
+	Print_XML(json, index);
 
 	return 0;
 }
