@@ -1,10 +1,3 @@
-/*
- * main.h
- *
- *  Created on: Jul 14, 2021
- *      Author: Shams
- */
-
 #ifndef MAIN_H_
 #define MAIN_H_
 
@@ -29,12 +22,13 @@ extern vector<string> XML_original;
 extern vector<string> XML_FixedErrors;
 extern vector<string> Spaces;
 extern vector<string> JSON;
+extern vector<string> XML_ReadFile;
 
 
 /* FUNCTION PROTOTYPES */
 
 void Output_File( const vector<string> &XML_string, int size);
-void Output_File(const vector<string> &Spaces, const vector<string> &XML_string, int size);
+void Output_File(const vector<string> &Spaces, const vector<string> &XML_string, int size,string caller);
 void Print_XML( const vector<string> &XML_string, int size);
 void Print_XML(const vector<string> &Spaces, const vector<string> &XML_string, int size);
 
