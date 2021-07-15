@@ -37,9 +37,17 @@ void MainWindow::on_actionOpen_triggered()
     setWindowTitle(filename);
     QTextStream in(&file);
     QString text = in.readAll();
+
     ui->plainTextEdit->setPlainText(text);
-    XML_FixErrors(NumOfLines, XML_original, XML_FixedErrors, XML_ReadFile , sizeOfXML,text.toStdString());
-   XML_indent(Spaces, XML_FixedErrors , NumOfLines );
+    XML_Parser(text.toStdString(),XML_ReadFile, sizeOfXML);
+
+    XML_original.resize(sizeOfXML*2);
+    XML_FixedErrors.resize(sizeOfXML*2);
+    Spaces.resize(sizeOfXML*2);
+    JSON.resize(sizeOfXML*3);
+
+    XML_FixErrors(NumOfLines, XML_original, XML_FixedErrors, XML_ReadFile , sizeOfXML);
+    XML_indent(Spaces, XML_FixedErrors , NumOfLines );
     file.close();
 }
 
