@@ -1,0 +1,857 @@
+{
+'data':{
+'synsets':{
+'synset':{
+'lex_filenum':{
+               00
+               }
+'word':{
+        able
+        }
+'pointer':{
+           Attribute
+           }
+        , {
+           Derivationally related form
+           }
+        , {
+           Antonym
+           }
+'def':{
+       (usually followed by `to') having the necessary means or skill or know-how or authority to do something
+       }
+'example':{
+           able to swim
+           }
+        , {
+           she was able to program her computer
+           }
+        , {
+           we were at last able to buy a car
+           }
+        , {
+           able to get a grant for the project
+           }
+          }
+         , {
+'lex_filenum':{
+               00
+               }
+'word':{
+        cancellate
+        }
+          , {
+             cancellated
+             }
+          , {
+             cancellous
+             }
+'pointer':{
+           Similar to
+           }
+          , {
+             Domain of synset - TOPIC
+             }
+'def':{
+       having an open or latticed or porous structure
+       }
+            }
+         , {
+'lex_filenum':{
+               00
+               }
+'word':{
+        crowned
+        }
+'pointer':{
+           Antonym
+           }
+          , {
+             Similar to
+             }
+'def':{
+       provided with or as if with a crown or a crown as specified
+       }
+          , {
+             often used in combination
+             }
+'example':{
+           }
+          , {
+             an orange-crowned bird
+             }
+          , {
+             }
+            }
+         , {
+'lex_filenum':{
+               00
+               }
+'word':{
+        unsoundable
+        }
+'pointer':{
+           Similar to
+           }
+'def':{
+       too deep to determine the depth of
+       }
+            }
+         , {
+'lex_filenum':{
+               00
+               }
+'word':{
+        consolidative
+        }
+          , {
+             unifying
+             }
+'pointer':{
+           Similar to
+           }
+          , {
+             Derivationally related form
+             }
+'def':{
+       combining into a single unit
+       }
+            }
+         , {
+'lex_filenum':{
+               00
+               }
+'word':{
+        unspaced
+        }
+'pointer':{
+           Antonym
+           }
+          , {
+             Similar to
+             }
+'def':{
+       arranged without spaces between
+       }
+            }
+         , {
+'lex_filenum':{
+               00
+               }
+'word':{
+        unbooked
+        }
+'pointer':{
+           Similar to
+           }
+'def':{
+       not reserved in advance
+       }
+            }
+         , {
+'lex_filenum':{
+               00
+               }
+'word':{
+        standard
+        }
+'pointer':{
+           Also see
+           }
+          , {
+             Attribute
+             }
+          , {
+             Antonym
+             }
+          , {
+             Similar to
+             }
+'def':{
+       conforming to or constituting a standard of measurement or value
+       }
+          , {
+             or of the usual or regularized or accepted kind
+             }
+'example':{
+           windows of standard width
+           }
+          , {
+             standard sizes
+             }
+          , {
+             the standard fixtures
+             }
+          , {
+             standard brands
+             }
+          , {
+             standard operating procedure
+             }
+            }
+         , {
+'lex_filenum':{
+               01
+               }
+'word':{
+        alchemic
+        }
+          , {
+             alchemical
+             }
+'pointer':{
+           Derivationally related form
+           }
+          , {
+             Pertainym (pertains to noun)
+             }
+          , {
+             Derivationally related form
+             }
+          , {
+             Pertainym (pertains to noun)
+             }
+'def':{
+       related to or concerned with alchemy
+       }
+            }
+         , {
+'lex_filenum':{
+               01
+               }
+'word':{
+        communist
+        }
+          , {
+             communistic
+             }
+'pointer':{
+           Derivationally related form
+           }
+          , {
+             Pertainym (pertains to noun)
+             }
+          , {
+             Pertainym (pertains to noun)
+             }
+'def':{
+       relating to or marked by communism
+       }
+'example':{
+           Communist Party
+           }
+          , {
+             communist governments
+             }
+          , {
+             communistic propaganda
+             }
+            }
+           }
+      , {
+'synset':{
+'lex_filenum':{
+               02
+               }
+'word':{
+        }
+'def':{
+       without musical accompaniment
+       }
+'example':{
+           they performed a cappella
+           }
+          }
+       , {
+'lex_filenum':{
+               02
+               }
+'word':{
+        let alone
+        }
+        , {
+           not to mention
+           }
+'def':{
+       much less
+       }
+'example':{
+           she can't boil potatoes, let alone cook a meal
+           }
+          }
+       , {
+'lex_filenum':{
+               02
+               }
+'word':{
+        together
+        }
+'def':{
+       at the same time
+       }
+'example':{
+           we graduated together
+           }
+          }
+       , {
+'lex_filenum':{
+               02
+               }
+'word':{
+        gaily
+        }
+'pointer':{
+           Derived from adjective
+           }
+'def':{
+       in a gay manner
+       }
+'example':{
+           the scandals were gaily diverting
+           }
+          }
+       , {
+'lex_filenum':{
+               02
+               }
+'word':{
+        incidentally
+        }
+        , {
+           accidentally
+           }
+'pointer':{
+           Derived from adjective
+           }
+'def':{
+       of a minor or subordinate nature
+       }
+'example':{
+           these magnificent achievements were only incidentally influenced by Oriental models
+           }
+          }
+       , {
+'lex_filenum':{
+               02
+               }
+'word':{
+        agonizingly
+        }
+        , {
+           excruciatingly
+           }
+        , {
+           torturously
+           }
+'pointer':{
+           Derived from adjective
+           }
+        , {
+           Derived from adjective
+           }
+        , {
+           Derived from adjective
+           }
+'def':{
+       in a very painful manner
+       }
+'example':{
+           the progress was agonizingly slow
+           }
+          }
+       , {
+'lex_filenum':{
+               02
+               }
+'word':{
+        dismally
+        }
+        , {
+           dreadfully
+           }
+'pointer':{
+           Derived from adjective
+           }
+'def':{
+       in a dreadful manner
+       }
+'example':{
+           as he looks at the mess he has left behind he must wonder how the Brits so often managed to succeed in the kind of situation where he has so dismally failed
+           }
+          }
+       , {
+'lex_filenum':{
+               02
+               }
+'word':{
+        conspicuously
+        }
+'pointer':{
+           Antonym
+           }
+        , {
+           Derived from adjective
+           }
+'def':{
+       in a manner tending to attract attention
+       }
+'example':{
+           there have been plenty of general declarations about willingness to meet and talk, but conspicuously no mention of time and place
+           }
+          }
+       , {
+'lex_filenum':{
+               02
+               }
+'word':{
+        rallentando
+        }
+'pointer':{
+           Domain of synset - TOPIC
+           }
+'def':{
+       slowing down
+       }
+'example':{
+           this passage should be played rallentando
+           }
+          }
+       , {
+'lex_filenum':{
+               02
+               }
+'word':{
+        surpassingly
+        }
+'pointer':{
+           Derived from adjective
+           }
+'def':{
+       to a surpassing degree
+       }
+'example':{
+           she was a surpassingly beautiful woman
+           }
+          }
+         }
+      , {
+'synset':{
+'lex_filenum':{
+               03
+               }
+'word':{
+        entity
+        }
+'pointer':{
+           Hyponym
+           }
+'def':{
+       that which is perceived or known or inferred to have its own distinct existence (living or nonliving)
+       }
+          }
+       , {
+'lex_filenum':{
+               05
+               }
+'word':{
+        honey buzzard
+        }
+        , {
+           Pernis apivorus
+           }
+'pointer':{
+           Hypernym
+           }
+        , {
+           Member holonym
+           }
+'def':{
+       Old World hawk that feeds on bee larvae and small rodents and reptiles
+       }
+          }
+       , {
+'lex_filenum':{
+               06
+               }
+'word':{
+        clarence
+        }
+'pointer':{
+           Hypernym
+           }
+'def':{
+       }
+          }
+       , {
+'lex_filenum':{
+               06
+               }
+'word':{
+        thermojunction
+        }
+'pointer':{
+           Hypernym
+           }
+'def':{
+       }
+          }
+       , {
+'lex_filenum':{
+               09
+               }
+'word':{
+        vector algebra
+        }
+'pointer':{
+           Hypernym
+           }
+        , {
+           Domain of synset - TOPIC
+           }
+        , {
+           Hyponym
+           }
+'def':{
+       the part of algebra that deals with the theory of vectors and vector spaces
+       }
+          }
+       , {
+'lex_filenum':{
+               13
+               }
+'word':{
+        confit
+        }
+'pointer':{
+           Hypernym
+           }
+'def':{
+       }
+          }
+       , {
+'lex_filenum':{
+               15
+               }
+'word':{
+        Black Rock Desert
+        }
+'pointer':{
+           Instance Hypernym
+           }
+        , {
+           Part holonym
+           }
+'def':{
+       }
+          }
+       , {
+'lex_filenum':{
+               18
+               }
+'word':{
+        sitting duck
+        }
+        , {
+           easy mark
+           }
+'pointer':{
+           Hypernym
+           }
+'def':{
+       }
+          }
+       , {
+'lex_filenum':{
+               20
+               }
+'word':{
+        looking-glass plant
+        }
+        , {
+           Heritiera littoralis
+           }
+'pointer':{
+           Hypernym
+           }
+'def':{
+       small tree of coastal regions of Old World tropics whose leaves are silvery beneath
+       }
+          }
+       , {
+'lex_filenum':{
+               24
+               }
+'word':{
+        paradigm
+        }
+'pointer':{
+           Hypernym
+           }
+        , {
+           Derivationally related form
+           }
+'def':{
+       systematic arrangement of all the inflected forms of a word
+       }
+          }
+         }
+      , {
+'synset':{
+'lex_filenum':{
+               29
+               }
+'word':{
+        breathe
+        }
+        , {
+           take a breath
+           }
+        , {
+           respire
+           }
+        , {
+           suspire
+           }
+'pointer':{
+           Entailment
+           }
+        , {
+           Derivationally related form
+           }
+        , {
+           Derivationally related form
+           }
+        , {
+           Derivationally related form
+           }
+        , {
+           Derivationally related form
+           }
+        , {
+           Also see
+           }
+        , {
+           Verb Group
+           }
+        , {
+           Hyponym
+           }
+'frame':{
+'frame':{
+'def':{
+       draw air into, and expel out of, the lungs
+       }
+'example':{
+           }
+       , {
+          The patient is respiring
+          }
+         }
+       , {
+'lex_filenum':{
+               30
+               }
+'word':{
+        smut
+        }
+'pointer':{
+           Hypernym
+           }
+        , {
+           Derivationally related form
+           }
+'frame':{
+'frame':{
+'def':{
+       stain with a dirty substance, such as soot
+       }
+         }
+       , {
+'lex_filenum':{
+               30
+               }
+'word':{
+        take
+        }
+'pointer':{
+           Hypernym
+           }
+'frame':{
+'def':{
+       be seized or affected in a specified way
+       }
+'example':{
+           take sick
+           }
+       , {
+          be taken drunk
+          }
+         }
+        , {
+'lex_filenum':{
+               32
+               }
+'word':{
+        referee
+        }
+         , {
+            peer review
+            }
+'pointer':{
+           Hypernym
+           }
+         , {
+            Derivationally related form
+            }
+'frame':{
+'def':{
+       evaluate professionally a colleague's work
+       }
+         }
+         , {
+'lex_filenum':{
+               33
+               }
+'word':{
+        open fire
+        }
+          , {
+             fire
+             }
+'pointer':{
+           Hypernym
+           }
+          , {
+             Derivationally related form
+             }
+          , {
+             Derivationally related form
+             }
+'frame':{
+'frame':{
+'def':{
+       start firing a weapon
+       }
+         }
+       , {
+'lex_filenum':{
+               35
+               }
+'word':{
+        compress
+        }
+        , {
+           compact
+           }
+        , {
+           pack together
+           }
+'pointer':{
+           Entailment
+           }
+        , {
+           Hypernym
+           }
+        , {
+           Derivationally related form
+           }
+        , {
+           Antonym
+           }
+        , {
+           Derivationally related form
+           }
+        , {
+           Derivationally related form
+           }
+        , {
+           Hyponym
+           }
+'frame':{
+'frame':{
+'frame':{
+'def':{
+       make more compact by or as if by pressing
+       }
+'example':{
+           compress the data
+           }
+         }
+       , {
+'lex_filenum':{
+               36
+               }
+'word':{
+        dip
+        }
+'pointer':{
+           Hypernym
+           }
+        , {
+           Derivationally related form
+           }
+'frame':{
+'def':{
+       place (candle wicks) into hot, liquid wax
+       }
+         }
+        , {
+'lex_filenum':{
+               38
+               }
+'word':{
+        schuss
+        }
+'pointer':{
+           Hypernym
+           }
+         , {
+            Domain of synset - TOPIC
+            }
+'frame':{
+'def':{
+       ski downhill
+       }
+         }
+         , {
+'lex_filenum':{
+               40
+               }
+'word':{
+        get
+        }
+'pointer':{
+           Hypernym
+           }
+          , {
+             Domain of synset - TOPIC
+             }
+          , {
+             Derivationally related form
+             }
+'frame':{
+'def':{
+       purchase
+       }
+'example':{
+           What did you get at the toy store?
+           }
+         }
+          , {
+'lex_filenum':{
+               41
+               }
+'word':{
+        mismarry
+        }
+'pointer':{
+           Hypernym
+           }
+'frame':{
+'def':{
+       marry an unsuitable partner
+       }
+         }
+             }
+            }
+}
