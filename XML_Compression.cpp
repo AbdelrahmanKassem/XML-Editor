@@ -357,9 +357,5 @@ void PrintCompressedTree(const vector<string> &XML_fixed, int size)
 			encodedFile << outByteArr[i];
 		}
 	}
-	while(1)
-	{
-
-	}
 
 }
