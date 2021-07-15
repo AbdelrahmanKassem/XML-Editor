@@ -279,18 +279,22 @@ void XML_indent(vector<string> &OutputSpaces, vector<string> &XML_Fixed)
 	}
 }*/
 
-void xml_json(vector<string>&xml, vector<string>&json)
+void xml_json(vector<string>&xml, vector<string>&json, int &index)
 {
 	//int j = 4;
 	string previous;
 	string temp;
+	string temp1;
 	string t;
 	string text;
-	int repeated = 0;
+	//int repeated = 0;
 	bool flag = false;
+	bool repeated = false;
+	bool sameline;
 	stack <string> st;
-	int start, end, anotherend;
-	int index = 1;
+	int start, end, anotherend, mark;
+	int lastindex1, lastindex2;
+	index = 1;
 
 
 	json[0] = "{";
@@ -311,15 +315,9 @@ void xml_json(vector<string>&xml, vector<string>&json)
 		{
 			t = temp.substr(start + 1, end - (start + 1));
 			previous = t;
-			/*if (repeated==0)
-			{
-				json[index] = "]";
-			}
-			else
-			{
-				json[index] = "}";
-			}*/
 			json[index] = "}";
+			lastindex1 = index;
+			//sameline = false;
 			st.pop();
 			//j = j - 4;
 
@@ -350,13 +348,42 @@ void xml_json(vector<string>&xml, vector<string>&json)
 			{
 				json[index] = "'" + t + "'" + ":" + "{";
 			}*/
-			if (t != previous)
+			if (t != previous && repeated == false)
 			{
 				json[index] = "'" + t + "'" + ":" + "{";
+				lastindex2 = index;
+			}
+			else if (t != previous && repeated == true)
+			{
+				json[index] = "'" + t + "'" + ":" + "{";
+				if (json[lastindex1] == "}")
+				{
+					json[lastindex1] = "]";
+				}
+				else
+				{
+					json[lastindex1] += "]";
+				}
+
+				previous = "";
+				repeated = false;
+				lastindex2 = index;
 			}
 			else
 			{
-				json[index] = ", {";
+				if (repeated == false)
+				{
+					repeated = true;
+					temp1 = json[lastindex2];
+					mark = temp1.find(":");
+					json[lastindex2] = temp1.substr(0, mark) + "[" + temp1.substr(mark + 1);
+					json[index] = ", {";
+				}
+				else
+				{
+					json[index] = ", {";
+				}
+
 			}
 
 			temp = temp.substr(end + 1);
@@ -374,6 +401,8 @@ void xml_json(vector<string>&xml, vector<string>&json)
 					json[index] = text + "}";
 				}*/
 				json[index] += text + "}";
+				lastindex1 = index;
+				//sameline = true;
 				//j = j - 4;
 
 			}
@@ -408,6 +437,7 @@ int main()
 	vector<int> order(2000);
 	vector<bool> puttagname(2000);
 	vector<string> alltags(2000);
+	int index;
 
 
 	ifstream in("Trial.txt");				// READ FROM Trial.txt file
@@ -416,7 +446,7 @@ int main()
 
 	XML_indent(Spaces, XML_FixedErrors);	// TO GET INDENTION LEVELS TO PRINT OUT XML LINES CORRECTLY
 
-	xml_json(XML_FixedErrors, json);
+	xml_json(XML_FixedErrors, json, index);
 
 	//count(Tags, order, puttagname);
 
@@ -429,7 +459,7 @@ int main()
 	Print_XML(Spaces, XML_FixedErrors, NumOfLines);
 
 	cout << "------------------------------      XML TO JSON    ------------------------------------" << " \n \n ";
-	for (int i = 0; i < json.size(); i++)
+	for (int i = 0; i < index; i++)
 	{
 		cout << json[i] << endl;
 	}
