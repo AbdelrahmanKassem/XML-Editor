@@ -1,12 +1,5 @@
-/*
- * XML_Compression.h
- *
- *  Created on: Jul 14, 2021
- *      Author: arahm
- */
-
-#ifndef XML_COMPRESSION_H_
-#define XML_COMPRESSION_H_
+#ifndef XML_COMPRESSION_H
+#define XML_COMPRESSION_H
 
 #include <iostream>
 #include <vector>
@@ -28,4 +21,5 @@ using namespace std;
 
 void PrintCompressedTree(const vector<string> &XML_fixed, int size);
 
-#endif /* XML_COMPRESSION_H_ */
+
+#endif // XML_COMPRESSION_H

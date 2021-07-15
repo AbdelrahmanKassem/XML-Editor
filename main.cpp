@@ -9,11 +9,11 @@ unsigned int NumOfLines = 0;
 unsigned int sizeOfXML =0;
 unsigned int sizeOfJSON =0;
 
-vector<string> XML_original(MAX_SIZE);
-vector<string> XML_FixedErrors(MAX_SIZE);
-vector<string> Spaces(MAX_SIZE);
-vector<string> JSON(MAX_SIZE);
-vector<string> XML_ReadFile(MAX_SIZE);
+vector<string> XML_ReadFile;
+vector<string> XML_original;
+vector<string> XML_FixedErrors;
+vector<string> Spaces;
+vector<string> JSON;
 
 
 int main(int argc, char *argv[])
