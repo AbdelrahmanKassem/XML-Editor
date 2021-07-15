@@ -40,6 +40,16 @@ public:
     }
 };
 
+// Comparison object to be used to order the heap(Priority Queue)
+struct compare
+{
+    bool operator()(const Node* l, const Node* r) const
+    {
+        // the highest priority item has the lowest frequency
+        return l->probability > r->probability;
+    }
+};
+
 /**********************************************************************************************************/
 
 /******************************************************************************************/
@@ -282,7 +292,7 @@ void PrintCompressedTree(const vector<string> &XML_fixed, int size)
 	}
 
 	//Construct probabilities priority queue
-	priority_queue<Node*> q;
+	priority_queue<Node*, vector<Node*>, compare> q;
 	for(auto &it: probabilitiesDict)
 	{
 		Node* node = new Node(it.second,nullptr,nullptr,it.first);
@@ -307,7 +317,8 @@ void PrintCompressedTree(const vector<string> &XML_fixed, int size)
 
 	//Print Huffman dictionary
 	//for(auto &it: HuffmanDict)
-	//	cout<<it.first<<" => "<<it.second;
+	//	cout<<it.first<<" => "<<it.second<<"\n";
+
 
 	//Constructing the new file's bit-string
 	string outStr = "";
