@@ -1,10 +1,3 @@
-/*
- * XML_Parser.h
- *
- *  Created on: Jul 13, 2021
- *      Author: arahm
- */
-
 #ifndef XML_PARSER_H_
 #define XML_PARSER_H_
 

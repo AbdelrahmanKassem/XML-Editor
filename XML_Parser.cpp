@@ -79,6 +79,8 @@ void XML_FixErrors( unsigned int &lines, vector<string> &XML_Original, vector<st
         /* CHECK FOR INPUT WE DON'T WANT TO ADJUST */
         if  ( (( (temp[1] == '?') || (temp[1] == '!')) && temp[0] == '<') || (temp.find("<") == -1) || (temp.find(">") == -1) || ( temp == "" ))
         {
+            if( temp[1] == ' ' )          // STRING WITH SPACE (WE DON'T WANT THIS)
+               {   continue; }
 
             XML_Original[lines]= temp;
             XML_Fix[lines] = temp;
