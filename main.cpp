@@ -23,36 +23,6 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-
-
-    /*Functions*/
-
-//    XML_FixErrors( NumOfLines, XML_original, XML_FixedErrors,XML_ReadFile , sizeOfXML);		// FIND ERRORS AND FIX THEM
-
-//	XML_indent(Spaces, XML_FixedErrors , NumOfLines );												// TO GET INDENTION LEVELS TO PRINT OUT XML LINES CORRECTLY
-
-/*
-
-    cout << "-----------------------------      BEFORE FIX  WITHOUT INDENTION     -----------------------------" << " \n \n ";
-    Print_XML( XML_original, NumOfLines);
-
-    cout << "-----------------------------      AFTER FIX  WITHOUT INDENTION     -----------------------------" << " \n \n ";
-    Print_XML(Spaces, XML_FixedErrors, NumOfLines);
-
-*/
-
-//    cout << "-----------------------------      AFTER FIX  WITH INDENTION     -----------------------------" << " \n \n ";
-//    Print_XML(Spaces, XML_FixedErrors, NumOfLines);
-//    Output_File(Spaces, XML_FixedErrors, NumOfLines);
-
-//    cout << "------------------------------      XML TO JSON    ------------------------------------" << " \n \n ";
-//    xml_json(XML_FixedErrors, JSON , NumOfLines, sizeOfJSON );
-//    Print_XML(  JSON, sizeOfJSON);
-//    Output_File(JSON , sizeOfJSON);
-
-//    cout << "------------------------------      MINIFYING    ------------------------------------" << " \n \n ";
-//    XML_Minify(XML_FixedErrors,NumOfLines);
-
     return a.exec();
 }
 
